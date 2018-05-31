@@ -4,35 +4,35 @@
 *
 */
 
-
-var data = [
-    {
-        name: 'Dydo',
-        url: 'images/dydo.png',
-        counter: 0
-    },
-    {
-        name: 'Momo',
-        url: 'images/momo.png',
-        counter: 0
-    },
-    {
-        name: 'Nano',
-        url: 'images/nano.png',
-        counter: 0
-    },
-    {
-        name: 'Roro',
-        url: 'images/roro.png',
-        counter: 0
-    },
-    {
-        name: 'Zazy',
-        url: 'images/zazy.png',
-        counter: 0
-    }
-];
-
+var model = {
+    data = [
+        {
+            name: 'Dydo',
+            url: 'images/dydo.png',
+            counter: 0
+        },
+        {
+            name: 'Momo',
+            url: 'images/momo.png',
+            counter: 0
+        },
+        {
+            name: 'Nano',
+            url: 'images/nano.png',
+            counter: 0
+        },
+        {
+            name: 'Roro',
+            url: 'images/roro.png',
+            counter: 0
+        },
+        {
+            name: 'Zazy',
+            url: 'images/zazy.png',
+            counter: 0
+        }
+    ]    
+}
 
 var octopus = {
     init: function() {
