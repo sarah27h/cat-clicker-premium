@@ -98,7 +98,8 @@ const octopus = {
         console.log(model.currentSelected.name);
         listView.render();
         displayView.renderImage();
-        this.closeAdminView();
+        adminView.adminPanal.classList.add("hidden");
+        // this.closeAdminView();
     }
 };
 
