@@ -1,11 +1,11 @@
 /*
 *
-* 
+* Model
 *
 */
 
-var model = {
-    data = [
+const model = {
+    cats : [
         {
             name: 'Dydo',
             url: 'images/dydo.png',
@@ -34,40 +34,59 @@ var model = {
     ]    
 }
 
-var octopus = {
+
+/*
+*
+* Octopus
+*
+*/
+
+const octopus = {
     init: function() {
-        listView.render();
+        listView.init();
         displayView.init();
     },
 
+    getCatsArray: function() {
+        return model.cats;
+    },
+
     getCatName: function(i){
-        return data[i].name;
+        return model.cats[i].name;
     },
 
     getCatSrc: function(i) {
-        return data[i].url;
+        return model.cats[i].url;
 
     },
 
     getCatCounter: function(i) {
-        return data[i].counter;;
+        return model.cats[i].counter;;
     },
 
     setCounterValue: function(clicks, i) {
-        data[i].counter = clicks;
+        model.cats[i].counter = clicks;
     }
 };
 
 
-var listView = {
+/*
+*
+* View
+*
+*/
+
+const listView = {
     init: function() {
-        
+        this.catList = document.getElementById('cat_list');
+        this.catImg = document.createElement('img');
+        this.counter = document.querySelector('.click_num');
+        this.render();
     },
 
     render: function() {
-        const catList = document.getElementById('cat_list');
-        const catImg = document.createElement('img');
-        for(let i = 0; i < data.length; i++) {
+        const cats = octopus.getCatsArray();
+        for(let i = 0; i < cats.length; i++) {
             //create list item for every cat name
             const li = document.createElement('li');
 
@@ -76,7 +95,7 @@ var listView = {
             const liText = document.createTextNode(name);
             li.appendChild(liText);
             li.setAttribute('id', i);
-            catList.appendChild(li);
+            this.catList.appendChild(li);
             console.log(name);
         
             /*  add eventlistener to every list item
@@ -85,55 +104,51 @@ var listView = {
             *   and pass it to displayView.renderImage
             *   to draw image of that index
             */
+            // to solve this refers to listView
+            // inside eventListener this problem happens this lose its scope
+            // not the document.body
+            let self = this;
             li.addEventListener('click', function() {
                 let listIndex = li.getAttribute('id');
+                //draw img for the clicked one
                 displayView.renderImage(listIndex);
-                document.querySelector('.click_num').innerHTML = octopus.getCatCounter(listIndex);
+                // get counter value for the clicked one
+                self.counter.innerHTML = octopus.getCatCounter(listIndex);
+                console.log( document.querySelector('.click_num').innerHTML);
             });  
         };
     }
 };
 
-
-var displayView = {
+const displayView = {
     init: function() {
+        this.catImg = document.querySelector('.cat_img');
+        this.counter = document.querySelector('.click_num');
+        this.catName = document.querySelector('.cat_name')
         this.renderImage(0);
-        this.checkclickedOne();
-    },
-
-    renderImage: function(index) {            
-        // set a default cat image and display its name
-        document.querySelector('.cat_name').innerHTML = octopus.getCatName(index);
-        const catImg = document.querySelector('.cat_img');
-        // add img to display area
-        
-        let imgSrc = octopus.getCatSrc(index);
-        console.log(imgSrc);
-        catImg.setAttribute('src', imgSrc);
-        catImg.setAttribute('class', 'cat_img');
-        catImg.setAttribute('alt', 'cat image');
-        catImg.setAttribute('id', index);            
-    },
-
-    checkclickedOne: function() {
         // to solve this refers to displayView
         // not the document.body
-        const catImg = document.querySelector('.cat_img');
-        
         var self = this;
-        catImg.addEventListener('click', function() {
-            let clickedOne = catImg.getAttribute('id');
+        this.catImg.addEventListener('click', function(e) {
+            let clickedOne = (e.target).getAttribute('id');
             self.incrementCounter(clickedOne);
             console.log(':D');
         });
-        
+    },
+
+    renderImage: function(listIndex) { 
+        let imgSrc = octopus.getCatSrc(listIndex);          
+        // set image name, src and id
+        this.catName.innerHTML = octopus.getCatName(listIndex);
+        this.catImg.setAttribute('src', imgSrc);
+        this.catImg.setAttribute('id', listIndex);            
     },
 
     incrementCounter: function(index) {
         let catCounter = octopus.getCatCounter(index);
         catCounter ++;
         octopus.setCounterValue(catCounter, index);
-        document.querySelector('.click_num').innerHTML = octopus.getCatCounter(index);
+        this.counter.innerHTML = octopus.getCatCounter(index);
         console.log(`first cat counter: ${octopus.getCatCounter(0)}`);            
         console.log(`second cat counter: ${octopus.getCatCounter(1)}`);
     }
