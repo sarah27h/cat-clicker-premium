@@ -41,6 +41,14 @@ video {
 	border-top: 1px solid #7d97ad;
 }
 
+.hidden {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
 
 /* start header */
 .main_header {
@@ -80,11 +88,19 @@ video {
 }
 
 .wrapper .cat_choice {
+	width: 20%;
+}
+
+.wrapper #admin_mode {
 	width: 30%;
 }
 
+.wrapper #admin_mode label {
+	display: inline-block;
+}
+
 .cat_wrapper {
-	width: 60%;
+	width: 50%;
 }
 
 .cat_wrapper .cat_img {

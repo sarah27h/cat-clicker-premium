@@ -47,6 +47,7 @@ const octopus = {
         model.currentSelected = model.cats[0];
         listView.init();
         displayView.init();
+        adminView.init();
     },
 
     getCatsArray: function() {
@@ -76,6 +77,28 @@ const octopus = {
 
     setCounterValue: function(clicks) {
         model.currentSelected.counter = clicks;
+    },
+
+    openAdminView: function(e) {
+        e.preventDefault();        
+        adminView.adminPanal.classList.remove("hidden");
+        console.log(':D');
+    },
+
+    closeAdminView: function(e) {
+        e.preventDefault();
+        adminView.adminPanal.classList.add("hidden");
+    },
+
+    updatecurrentSelected: function(e) {
+        e.preventDefault();
+        model.currentSelected.name = adminView.name.value;
+        model.currentSelected.url = adminView.url.value;
+        model.currentSelected.counter = adminView.clicks.value;        
+        console.log(model.currentSelected.name);
+        listView.render();
+        displayView.renderImage();
+        this.closeAdminView();
     }
 };
 
@@ -97,6 +120,10 @@ const listView = {
     render: function() {
         // use octopus to get cats array
         const cats = octopus.getCatsArray();
+
+        // empty the cat list to render the update
+        this.catList.innerHTML = '';
+
         for(let i = 0; i < cats.length; i++) {
             //create list item for every cat name
             const li = document.createElement('li');
@@ -151,5 +178,27 @@ const displayView = {
         this.counter.innerHTML = octopus.getCatCounter();
     }
 };
+
+var adminView = {
+    init: function() {
+        this.adminPanal = document.getElementById('admin_panal');        
+
+        this.adminBtn = document.getElementById('admin');
+        this.cancelBtn = document.getElementById('cancel');
+        this.saveBtn = document.getElementById('save');
+        
+        this.adminBtn.addEventListener('click', octopus.openAdminView);
+        this.cancelBtn.addEventListener('click', octopus.closeAdminView);
+        this.name = document.getElementById('name');
+        this.url = document.getElementById('url');
+        this.clicks = document.getElementById('clicks');
+        this.saveBtn.addEventListener('click', octopus.updatecurrentSelected);
+        // this.render();       
+    },
+
+    render: function() {
+               
+    }
+}
 
 octopus.init();
