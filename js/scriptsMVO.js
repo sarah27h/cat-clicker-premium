@@ -98,8 +98,11 @@ const octopus = {
         console.log(model.currentSelected.name);
         listView.render();
         displayView.renderImage();
-        adminView.adminPanal.classList.add("hidden");
-        // this.closeAdminView();
+        // worked
+        // adminView.adminPanal.classList.add("hidden");
+        // didn't work
+        // adminView.closeAdminView(e);
+        octopus.closeAdminView.call(adminView, e);
     }
 };
 
